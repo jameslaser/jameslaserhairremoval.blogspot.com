@@ -1,0 +1,72 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.posts
+  size: 12
+  alias: posts
+permalink: "{% if pagination.pageNumber > 0 %}/page/{{ pagination.pageNumber + 1 }}/{% else %}/{% endif %}"
+eleventyComputed:
+  title: "{% if pagination.pageNumber > 0 %}Articles, page {{ pagination.pageNumber + 1 }}{% endif %}"
+---
+{%- set first = pagination.pageNumber == 0 %}
+{%- if first %}
+<section class="hero">
+  <div class="wrap hero__inner">
+    <div class="hero__text">
+      <p class="eyebrow">Nurse James · Harmony Derma, Al Hamra</p>
+      <h1 class="hero__title">Men's laser hair removal, explained by the nurse who does it.</h1>
+      <p class="hero__lede">How laser works on beard, chest and back hair, how many sessions to expect, and how to prepare and recover — in plain English and Arabic.</p>
+      <p class="hero__lede ar" lang="ar" dir="rtl">دليلك لإزالة الشعر بالليزر للرجال: عدد الجلسات، التحضير، والعناية بعد الجلسة.</p>
+      <div class="hero__actions">
+        <a class="button" href="https://wa.me/{{ site.contact.whatsapp }}?text={{ site.contact.whatsappMessage | urlencode }}">Book on WhatsApp</a>
+        <a class="link-arrow" href="#articles">Read the articles</a>
+      </div>
+    </div>
+    <dl class="hero__facts">
+      <div><dt>Practitioner</dt><dd>{{ site.author.name }}<br><span>{{ site.author.title }}</span></dd></div>
+      <div><dt>Devices</dt><dd>{{ site.clinic.devices | join("<br>") | safe }}</dd></div>
+      <div><dt>Hours</dt><dd>1 – 10 PM daily<br><span>Closed Friday</span></dd></div>
+    </dl>
+  </div>
+</section>
+{%- endif %}
+
+<section class="wrap articles" id="articles">
+  <div class="section-head">
+    <h2>{% if first %}Latest articles{% else %}Articles · page {{ pagination.pageNumber + 1 }}{% endif %}</h2>
+    {%- if first and collections.labels.length %}
+    <p class="chips">
+      {%- for l in collections.labels | limit(6) %}<a class="chip" href="{{ ('/labels/' + (l.name | labelSlug) + '/') }}" dir="auto">{{ l.name }}</a>{% endfor -%}
+      <a class="chip chip--more" href="{{ '/labels/' }}">All topics</a>
+    </p>
+    {%- endif %}
+  </div>
+
+  {%- if posts.length == 0 %}
+  <p class="empty">No articles yet. Add one in <code>src/posts/</code>.</p>
+  {%- endif %}
+
+  <ol class="cards" reversed>
+    {%- for post in posts %}
+    {%- set img = post | firstImage %}
+    <li class="card{% if first and loop.first %} card--lead{% endif %}">
+      <a class="card__link" href="{{ post.url }}">
+        {%- if img %}<span class="card__media"><img src="{{ img }}" alt="" loading="{{ 'eager' if loop.first else 'lazy' }}" decoding="async"></span>{% endif %}
+        <span class="card__body">
+          <span class="card__meta"><time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>{% if post.data.labels.length %} · {{ post.data.labels[0] }}{% endif %}</span>
+          <span class="card__title" dir="auto">{{ post.data.title }}</span>
+          <span class="card__excerpt" dir="auto">{{ post | excerpt(28 if not (first and loop.first) else 48) }}</span>
+        </span>
+      </a>
+    </li>
+    {%- endfor %}
+  </ol>
+
+  {%- if pagination.pages.length > 1 %}
+  <nav class="pagenav" aria-label="Pages">
+    {% if pagination.href.previous %}<a href="{{ pagination.href.previous }}">← Newer</a>{% else %}<span></span>{% endif %}
+    <span>Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}</span>
+    {% if pagination.href.next %}<a href="{{ pagination.href.next }}">Older →</a>{% else %}<span></span>{% endif %}
+  </nav>
+  {%- endif %}
+</section>

@@ -1,0 +1,26 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.labels
+  size: 1
+  alias: label
+permalink: "/labels/{{ label.name | labelSlug }}/"
+eleventyComputed:
+  title: "{{ label.name }}"
+  description: "Articles about {{ label.name }} by Nurse James, Harmony Derma, Riyadh."
+---
+<section class="wrap page">
+  <p class="eyebrow"><a href="{{ '/labels/' }}">Topics</a></p>
+  <h1 class="page__title" dir="auto">{{ label.name }}</h1>
+  <p class="page__sub">{{ label.count }} article{% if label.count != 1 %}s{% endif %}</p>
+  <ul class="rows">
+    {%- for post in collections.posts | postsWithLabel(label.name) %}
+    <li>
+      <a href="{{ post.url }}">
+        <time datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
+        <span dir="auto">{{ post.data.title }}</span>
+      </a>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>

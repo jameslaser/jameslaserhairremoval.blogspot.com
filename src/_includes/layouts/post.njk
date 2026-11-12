@@ -1,0 +1,44 @@
+---
+layout: layouts/base.njk
+---
+{%- set postsList = collections.posts %}
+<article class="post">
+  <header class="post__header wrap wrap--narrow">
+    {%- if labels and labels.length %}
+    <p class="post__labels">
+      {%- for l in labels | limit(3) %}<a href="{{ ('/labels/' + (l | labelSlug) + '/') }}">{{ l }}</a>{% endfor -%}
+    </p>
+    {%- endif %}
+    <h1 class="post__title" dir="auto">{{ title }}</h1>
+    <p class="post__meta">
+      <span>{{ site.author.displayName }}, {{ site.author.title }}</span>
+      <span aria-hidden="true">·</span>
+      <time datetime="{{ page.date | isoDate }}">{{ page.date | readableDate }}</time>
+      <span aria-hidden="true">·</span>
+      <span>{{ content | readingTime }}</span>
+    </p>
+  </header>
+
+  <div class="prose wrap wrap--narrow">
+    {{ content | safe }}
+  </div>
+
+  <div class="wrap wrap--narrow">
+    {% include "booking.njk" %}
+
+    {%- if labels and labels.length > 3 %}
+    <p class="post__alllabels">Filed under:
+      {% for l in labels %}<a href="{{ ('/labels/' + (l | labelSlug) + '/') }}">{{ l }}</a>{% endfor %}
+    </p>
+    {%- endif %}
+
+    {%- set prev = collections.posts | getNextCollectionItem(page) %}
+    {%- set next = collections.posts | getPreviousCollectionItem(page) %}
+    {%- if prev or next %}
+    <nav class="pager" aria-label="More articles">
+      {% if prev %}<a class="pager__item" href="{{ prev.url }}"><span>Previous</span><strong dir="auto">{{ prev.data.title }}</strong></a>{% else %}<span></span>{% endif %}
+      {% if next %}<a class="pager__item pager__item--next" href="{{ next.url }}"><span>Next</span><strong dir="auto">{{ next.data.title }}</strong></a>{% endif %}
+    </nav>
+    {%- endif %}
+  </div>
+</article>

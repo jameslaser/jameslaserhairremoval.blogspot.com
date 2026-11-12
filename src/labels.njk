@@ -1,0 +1,18 @@
+---
+layout: layouts/base.njk
+title: Topics
+description: Browse men's laser hair removal articles by topic.
+permalink: /labels/
+---
+<section class="wrap page">
+  <p class="eyebrow">Browse</p>
+  <h1 class="page__title">Topics</h1>
+  {%- if collections.labels.length == 0 %}
+  <p class="empty">Topics appear here once articles have labels.</p>
+  {%- endif %}
+  <ul class="topic-list">
+    {%- for l in collections.labels %}
+    <li><a href="{{ ('/labels/' + (l.name | labelSlug) + '/') }}"><span dir="auto">{{ l.name }}</span><span class="count">{{ l.count }}</span></a></li>
+    {%- endfor %}
+  </ul>
+</section>

@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+title: About Nurse James
+description: James Flores, Nurse | Specialist, performs men's laser hair removal at Harmony Derma, Al Hamra, Riyadh.
+permalink: /about/
+---
+<section class="wrap wrap--narrow page">
+  <p class="eyebrow">About</p>
+  <h1 class="page__title">Nurse James Flores</h1>
+  <p class="page__sub">{{ site.author.title }} · {{ site.author.registration }}</p>
+
+  <div class="prose">
+    <p>I'm James Flores, a nurse in the laser department at {{ site.clinic.name }} in Al Hamra, Riyadh. I treat men for laser hair removal every day — beard lines, neck, chest, back and full body.</p>
+    <p>I started this blog because the same good questions come up in almost every consultation: how many sessions, why the gap between them, what to do before and after, and whether laser suits a particular skin type. These articles answer them properly, in English and Arabic, so you arrive at your session already knowing what to expect.</p>
+
+    <h2>Where to find me</h2>
+    <dl class="details">
+      <div><dt>Clinic</dt><dd>{{ site.clinic.name }}<br>{{ site.clinic.address }}<br><a href="{{ site.clinic.mapUrl }}">Open in Maps</a></dd></div>
+      <div><dt>Hours</dt><dd>{{ site.clinic.hours }}</dd></div>
+      <div><dt>Devices</dt><dd>{{ site.clinic.devices | join(", ") }}</dd></div>
+      <div><dt>WhatsApp</dt><dd><a href="https://wa.me/{{ site.contact.whatsapp }}">{{ site.contact.phoneDisplay }}</a></dd></div>
+      <div><dt>Call centre</dt><dd>{% for n in site.contact.callCenter %}<a href="tel:{{ n }}">{{ n }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</dd></div>
+      <div><dt>Email</dt><dd><a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></dd></div>
+    </dl>
+
+    <p class="ar" lang="ar" dir="rtl">أنا الممرض جيمس فلوريس، أعمل في قسم الليزر في هارموني ديرما بحي الحمراء في الرياض. هذه المدونة تجيب عن أكثر الأسئلة شيوعًا حول إزالة الشعر بالليزر للرجال.</p>
+  </div>
+
+  {% include "booking.njk" %}
+</section>

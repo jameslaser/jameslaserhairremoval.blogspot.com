@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="{{ lang or site.language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- set pageTitle = (title + " · " + site.shortTitle) if title else (site.title + " — " + site.tagline) %}
+  {%- set pageDesc = description or site.description %}
+  <title>{{ pageTitle }}</title>
+  <meta name="description" content="{{ pageDesc }}">
+  <link rel="canonical" href="{{ page.url | fullUrl }}">
+  <meta property="og:type" content="{{ 'article' if layout == 'layouts/post.njk' else 'website' }}">
+  <meta property="og:title" content="{{ title or site.title }}">
+  <meta property="og:description" content="{{ pageDesc }}">
+  <meta property="og:url" content="{{ page.url | fullUrl }}">
+  <meta property="og:site_name" content="{{ site.title }}">
+  {%- if ogImage %}<meta property="og:image" content="{{ ogImage }}">{% endif %}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#14213a">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ '/feed.xml' }}">
+  <link rel="icon" href="{{ '/assets/img/favicon.svg' }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' }}">
+  {%- if jsonld %}<script type="application/ld+json">{{ jsonld | safe }}</script>{% endif %}
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="{{ '/' }}">
+        <span class="brand__name">James Laser</span>
+        <span class="brand__sub">Hair Removal for Men · Riyadh</span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="{{ '/' }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Articles</a>
+        <a href="{{ '/labels/' }}"{% if '/labels/' in page.url %} aria-current="page"{% endif %}>Topics</a>
+        <a href="{{ '/about/' }}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>About</a>
+        <a class="nav__cta" href="https://wa.me/{{ site.contact.whatsapp }}?text={{ site.contact.whatsappMessage | urlencode }}">Book</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__grid">
+      <div>
+        <p class="footer__brand">James Laser Hair Removal for Men</p>
+        <p>{{ site.author.name }} — {{ site.author.title }}<br>{{ site.clinic.name }}, {{ site.clinic.address }}</p>
+        <p class="ar" lang="ar" dir="rtl">إزالة الشعر بالليزر للرجال — حي الحمراء، الرياض</p>
+      </div>
+      <div>
+        <p class="footer__label">Visit</p>
+        <p>{{ site.clinic.hours }}<br><a href="{{ site.clinic.mapUrl }}">Open in Maps</a></p>
+      </div>
+      <div>
+        <p class="footer__label">Contact</p>
+        <p>
+          <a href="https://wa.me/{{ site.contact.whatsapp }}">WhatsApp {{ site.contact.phoneDisplay }}</a><br>
+          {% for n in site.contact.callCenter %}<a href="tel:{{ n }}">{{ n }}</a>{% if not loop.last %} · {% endif %}{% endfor %}<br>
+          <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+        </p>
+      </div>
+      <div>
+        <p class="footer__label">Follow</p>
+        <p class="footer__social">{% for s in site.social %}<a href="{{ s.url }}" rel="me noopener">{{ s.name }}</a>{% endfor %}</p>
+      </div>
+    </div>
+    <div class="wrap footer__legal">
+      <p>Articles are general education, not a medical diagnosis. Results and the number of sessions vary from person to person; a consultation confirms what suits your skin and hair.</p>
+      <p>© {{ build.year }} {{ site.title }} · <a href="{{ '/feed.xml' }}">RSS</a></p>
+    </div>
+  </footer>
+</body>
+</html>

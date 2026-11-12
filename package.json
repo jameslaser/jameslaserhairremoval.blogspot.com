@@ -1,0 +1,23 @@
+{
+  "name": "james-laser-blog",
+  "version": "1.0.0",
+  "description": "Nurse James men's laser hair removal blog",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve",
+    "import": "python3 tools/import_blogger.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jameslaser/jameslaserhairremoval.blogspot.com.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jameslaser/jameslaserhairremoval.blogspot.com/issues"
+  },
+  "homepage": "https://github.com/jameslaser/jameslaserhairremoval.blogspot.com#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.8"
+  },
+  "private": true,
+  "type": "module"
+}
